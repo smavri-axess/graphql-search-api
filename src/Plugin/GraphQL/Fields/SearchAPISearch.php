@@ -103,20 +103,24 @@ class SearchAPISearch extends FieldPluginBase implements ContainerFactoryPluginI
     // Execute search.
     try {
       $results = $this->query->execute();
+
+      // Get search response from results.
+      $search_response = $this->getSearchResponse($results);
+
+      // Add the result count to the response.
+      $search_response['result_count'] = $results->getResultCount();
+
+      // Set response type.
+      $search_response['type'] = 'SearchAPIResult';
     }
-    // Handle error, check exception type -> SearchApiException ?
+      // Handle error, check exception type -> SearchApiException ?
     catch (\Exception $exception) {
       $this->logger->get('graphql_search_api')->error($exception->getMessage());
+      $search_response = [
+        'result_count' => 0,
+        'type' => 'SearchAPIResult',
+      ];
     }
-
-    // Get search response from results.
-    $search_response = $this->getSearchResponse($results);
-
-    // Add the result count to the response.
-    $search_response['result_count'] = $results->getResultCount();
-
-    // Set response type.
-    $search_response['type'] = 'SearchAPIResult';
 
     yield $search_response;
 
