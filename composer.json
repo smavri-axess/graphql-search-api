@@ -5,7 +5,7 @@
   "homepage": "https://www.drupal.org/project/graphql_search_api",
   "license": "GPL-2.0+",
   "require": {
-    "php": ">=7.2"
+    "php": ">=8.1"
   },
   "minimum-stability": "dev"
 }
